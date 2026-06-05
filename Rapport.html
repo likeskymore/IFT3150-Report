@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFT3911 | Rapport 2</title>
+    <link rel="shortcut icon" href="./../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <style>
+        html,
+        body {
+            position: relative;
+            height: 100%;
+            font: normal 10px 'Segoe UI', 'Droid Sans', Ubuntu, 'Lucida Grande', Arial, Helvetica, sans-serif;
+            scroll-behavior: smooth;
+            background: #f5f5f5;
+            overflow-x: hidden;
+
+        }
+
+        h1,
+        h2 {
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 4em;
+            font-weight: normal;
+        }
+
+        h2 {
+            font-size: 3em;
+        }
+
+        h3 {
+            font-size: 2.2em;
+            font-weight: normal;
+        }
+
+        h4 {
+            font-size: 1.8em
+        }
+
+        h5 {
+            font-size: 1.6em;
+        }
+
+        h6 {
+            font-size: 1.5em;
+            margin-top: 0;
+        }
+
+        p,
+        li,
+        td,
+        th {
+            font-size: 1.5em;
+        }
+
+        td p,
+        td li,
+        th li,
+        li li,
+        li p,
+        li td,
+        li th {
+            font-size: 1em;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #555;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        .btn {
+            font-family: 'Segoe UI', 'Droid Sans', Ubuntu, 'Lucida Grande', Arial, sans-serif;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+            background: none;
+            outline-width: 0;
+        }
+
+        .font-ui {
+            font-family: 'Segoe UI', 'Droid Sans', Ubuntu, 'Lucida Grande', Arial, sans-serif;
+        }
+
+
+        /* Organization
+        ---------------------------------------------------------------------------- */
+
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .clear-fix {
+            clear: both;
+            display: block;
+        }
+
+        .clear-fix:after {
+            content: ".";
+            clear: both;
+            display: block;
+            height: 0;
+            visibility: hidden;
+        }
+
+        .row {
+            display: table-row;
+        }
+
+        .cell {
+            display: table-cell;
+        }
+
+        /* Reset */
+
+        .bare-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .bare-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .bare-table {
+            border: none;
+            table-layout: fixed;
+        }
+
+        .bare-table td,
+        .bare-table th {
+            border: none;
+        }
+
+        .bare-table th {
+            vertical-align: top;
+            text-align: left;
+        }
+
+
+        .inline-link {
+            text-decoration: underline;
+        }
+
+        .output {
+            text-decoration: none;
+            font-style: normal;
+        }
+
+        /* State
+        ---------------------------------------------------------------------------- */
+
+        .hidden {
+            display: none;
+        }
+
+        .fit-content {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .helper {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 60px;
+            padding: 3px 6px 4px;
+            border-radius: 1px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            font-style: normal;
+            color: #555;
+            background-color: #e5e4e2;
+            box-shadow: 0 1px 2px -1px #999;
+            opacity: 0;
+            transition: .2s;
+            transform: scale(0);
+            transition-property: opacity, transform;
+            z-index: 20;
+        }
+
+        .ico-helper {
+            display: inline-block;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            height: 18px;
+            width: 18px;
+            color: #fff;
+            border-radius: 50%;
+            background-color: #6667AB;
+            font-style: normal;
+        }
+
+        .has-helper {
+            position: relative;
+        }
+
+        .has-helper:hover>.helper {
+            opacity: 1;
+            transform: scale(1) translateY(2px);
+        }
+
+        .ico-helper:focus+.helper {
+            opacity: 1;
+            transform: scale(1) translateY(2px);
+        }
+
+        .has-def {
+            position: relative;
+            display: inline-block;
+        }
+
+        .def-term {
+            position: relative;
+            display: flex;
+            align-items: center;
+            color: #6667AB;
+            padding-left: 2px;
+            padding-right: 2px;
+            border-bottom: 3px solid currentColor;
+            cursor: default;
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        .def-term:after {
+            content: "?";
+            text-align: center;
+            font-weight: bold;
+            margin-left: 3px;
+            height: 18px;
+            width: 18px;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            background-color: #6667AB;
+            color: #fff;
+        }
+
+
+        .def {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 300px;
+            padding: 3px 6px 4px;
+            border-radius: 1px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            font-style: normal;
+            color: #fff;
+            background-color: #232425;
+            box-shadow: 0 1px 2px -1px #999;
+            opacity: 0;
+            transform: scale(0);
+            transition: .2s;
+            transition-property: opacity, transform;
+            z-index: 20;
+        }
+
+        .has-def:hover>.def {
+            opacity: 1;
+            transform: scale(1) translateY(2px);
+        }
+
+        .report-header {
+            padding-top: 24px;
+            padding-bottom: 24px;
+            background-color: #fff;
+        }
+
+        .title-section {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding-left: 5vw;
+            padding-right: 5vw;
+        }
+
+        .report-title {
+            color: royalblue;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        .report-summary {
+            max-width: 800px;
+            font-size: 1.4em;
+            color: #555;
+        }
+
+        .report-resources {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .report-resource {
+            margin-left: 12px;
+        }
+
+        .report-resource-link {
+            padding: 8px 12px;
+            font-weight: bold;
+            color: #fff;
+            border-radius: 2px;
+            text-decoration: none;
+            background-color: #232425;
+        }
+
+        .report-resource-link:hover {
+            background-color: #1b1f23;
+        }
+
+        .section-title {
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-size: 4em;
+            font-weight: 300;
+        }
+
+        .subsection-title {
+            margin-bottom: 3px;
+            font-size: 3em;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .team-section {
+            padding-left: 5vw;
+            padding-right: 5vw;
+        }
+
+        .team-title {
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #1C3A94;
+        }
+
+        .members {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .member {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .member:not(:last-child) {
+            margin-right: 12px;
+        }
+
+        .member-pic {
+            display: block;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+        }
+
+        .member-role {
+            font-size: 0.9em;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .report-body {
+            flex-wrap: wrap;
+        }
+
+        .report-aside {
+            max-width: 550px;
+            padding: 10px;
+            background-color: #6667AB;
+        }
+
+        .report-aside .section-title {
+            color: #fff;
+        }
+
+        .report-main {
+            padding-top: 24px;
+            padding-left: 2%;
+            padding-right: 5vw;
+            flex: 1;
+        }
+
+        .main-section {
+            margin-bottom: 24px;
+        }
+
+        .nav {
+            color: #E87429;
+        }
+
+        .nav-item-title {
+            font-size: 1.1em;
+            margin: 0;
+        }
+
+        .nav-item-title__link {
+            display: block;
+            color: #fff;
+            font-weight: 500;
+            padding: 6px;
+            text-decoration: none;
+        }
+
+        .nav-item-details {
+            color: #f5f5f5;
+            padding-left: 6px;
+            line-height: 1.5;
+        }
+
+        .glossary-term {
+            font-weight: bold;
+            background: #222;
+            padding: 3px 6px;
+            display: inline-block;
+            border-radius: 2px;
+            color: #fff;
+        }
+
+        .glossary-def {
+            margin-top: -6px;
+            margin-left: 6px;
+            margin-bottom: 6px;
+            padding: 12px 6px 4px;
+            background-color: #e5e4e2;
+            border-radius: 4px;
+        }
+
+        .personas {
+            display: flex;
+        }
+
+        .persona {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            margin-right: 12px;
+            max-width: 360px;
+            padding: 6px 12px;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px -1px #999;
+            background-color: #fff;
+            z-index: 2;
+        }
+
+        .persona-stat {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .persona-type {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            width: 40px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 50%;
+        }
+
+        .persona-type--pp {
+            background-color: #FF6F61;
+        }
+
+        .persona-type--eco {
+            background-color: #88B04B;
+        }
+
+        .persona-market {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 6px;
+            height: 40px;
+            width: 40px;
+            color: #444;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 50%;
+            background-color: #d5d5d5;
+        }
+
+        .persona-color {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #FF6F61;
+            height: 42px;
+            width: 42px;
+            font-weight: bold;
+            justify-self: center;
+            align-self: center;
+            font-size: 1.3rem;
+            border-radius: 50%;
+        }
+
+        .persona-identity {
+            display: flex;
+        }
+
+        .persona-name {
+            font-size: 1.2em;
+            font-weight: 300;
+            flex-grow: 2;
+        }
+
+        .persona-demography-line {
+            display: flex;
+        }
+
+        .persona-background {
+            padding: 6px;
+            color: #555;
+        }
+
+        .persona-title {
+            margin-top: 6px;
+            margin-bottom: 3px;
+            color: #222;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .use-case {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .use-case-diagram {
+            display: block;
+            height: 100%;
+            width: auto;
+            min-height: 800px;
+            min-width: 600px;
+            border-radius: 4px;
+            background-color: #d5d5d5;
+        }
+
+        .use-case-notes {
+            margin-left: 12px;
+        }
+
+        .scenario {
+            display: flex;
+            margin-bottom: 12px;
+            background-color: #fff;
+            border-radius: 3px;
+            box-shadow: 0 1px 2px #a9a9a9;
+        }
+
+        .scenario-meta {
+            padding: 12px;
+            max-width: 40%;
+            background-color: #e5e4e2;
+        }
+
+        .scenario-main {
+            flex-grow: 2;
+            padding: 12px;
+            margin-left: 12px;
+        }
+
+        .scenario-main-title {
+            margin: 0;
+            color: royalblue;
+        }
+
+        .scenario-alt-title {
+            margin: 0;
+            color: #FF6F61;
+        }
+
+        .cu-actors {
+            display: flex;
+        }
+
+        .cu-actor {
+            margin-right: 6px;
+            padding: 4px 6px;
+            color: #fff;
+            font-weight: 500;
+            background-color: #6667AB;
+            border-radius: 1px;
+        }
+
+        .cu-name {
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .cu-goal {
+            margin: 0;
+            font-size: 1.6em;
+        }
+
+        .cu-part--notes {
+            margin-top: 12px;
+        }
+
+        .cu-part-title {
+            margin: 0;
+            margin-top: 6px;
+        }
+
+        .cu-conditions {
+            font-weight: 500;
+        }
+
+        .cu-notes {
+            color: #555;
+            margin: 0;
+            font-size: 1.4em;
+        }
+
+        .scenario-main-steps {
+            margin: 0;
+            padding-left: 16px;
+        }
+
+        .scenario-alt {
+            margin-top: 6px;
+        }
+
+        .scenario-alt p {
+            margin: 0;
+        }
+
+        .scenario-alt-steps {
+            counter-reset: topLevel;
+        }
+
+        .scenario-alt-steps:not(:last-child) {
+            margin-bottom: 6px;
+        }
+
+        .scenario-alt-step {
+            counter-increment: topLevel;
+            font-weight: 500;
+        }
+
+        .scenario-alt-step:before {
+            content: attr(value) counter(topLevel, lower-alpha) '. ';
+        }
+
+        .scenario-alt-steps ol {
+            font-weight: 400;
+            counter-reset: secondLevel;
+        }
+
+        .scenario-alt-steps ol li {
+            counter-increment: secondLevel;
+            margin-left: 12px;
+        }
+
+        .scenario-alt-steps ol li:before {
+            content: attr(value) counter(topLevel, lower-alpha) '.' counter(secondLevel, decimal) '. '
+        }
+
+        .glossary {
+            font-size: 1.4em;
+        }
+
+        .preview-img {
+            display: block;
+            width: 600px;
+            height: auto;
+        }
+
+        .report-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 24px 5vw 24px;
+            color: #fff;
+            background-color: #292723;
+        }
+
+        .report-footer p {
+            margin: 0;
+            margin-bottom: 6px;
+        }
+
+        .activity-diagram {
+            display: block;
+
+            /* Minimum usable size */
+            min-width: 300px;
+            min-height: 300px;
+
+            /* Maximum size: never exceed viewport */
+            max-width: 100vw;
+            max-height: 100vh;
+
+            /* Scale nicely */
+
+            height: auto;
+
+            background-color: #d5d5d5;
+
+            /* Prevent overflow */
+            overflow: auto;
+        }
+
+        .dash:before {
+            content: '-';
+            margin-left: 4px;
+            margin-right: 8px;
+            font-weight: bold;
+            color: currentColor;
+        }
+
+        .check:before {
+            margin-left: 2px;
+            margin-right: 4px;
+            font-weight: bold;
+            content: '🗸';
+            color: currentColor;
+        }
+        #link{
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header class="report-header">
+        <div class="title-section">
+            <div>
+                <h1 class="report-title" id="up">Rapport du livrable 2 - Modélisation et analyse</h1>
+                <p>Ce deuxième rapport s’articule autour de quatres axes majeurs :</p>
+
+                <ul>
+                    <li>Modélisation du réseau de Petri Tunnel et analyse de ses propriétés.</li>
+                    <li>Modélisation du statechart Four à micro-ondes, suivie de l’intégration du code généré dans le code fourni.</li>
+                    <li>Révision du design des diagrammes de classes, de séquence et de paquets, ainsi que des contraintes OCL du devoir 1.</li>
+                    <li>Analyse des qualités du design en termes de couplage, de cohésion, de fardeau, de graphes AI et de principes de conception.</li>
+                </ul>
+            </div>
+
+            <ul class="bare-list report-resources">
+                <li class="report-resource">
+                    <a class="report-resource-link" href="https://github.com/likeskymore/3911-devoir2"
+                        target="_blank">
+                        Répertoire GitHub
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="team-section">
+            <h2 class="team-title">Équipe</h2>
+            <ul class="bare-list members">
+                <li class="member">
+                    <img class="member-pic" src="Assets/defaultPfp.png" alt="">
+                    <div class="member-identification">
+                        <span class="member-name">Dawson ZHANG</span>
+                        <span class="member-id">20268585</span>
+                    </div>
+                    <a href="mailto:prenom.nom@umontreal.ca">dawson.zhang@umontreal.ca</a>
+                    <span class="">Temps mis: 12h</span>
+                </li>
+                <li class="member">
+                    <img class="member-pic" src="Assets/defaultPfp.png" alt="">
+                    <div class="member-identification">
+                        <span class="member-name">Tien TRAN</span>
+                        <span class="member-id">20246669</span>
+                    </div>
+                    <a href="mailto:prenom.nom@umontreal.ca">tien.tran@umontreal.ca</a>
+                    <span class="">Temps mis: 12h</span>
+                </li>
+                <li class="member">
+                    <img class="member-pic" src="Assets/defaultPfp.png" alt="">
+                    <div class="member-identification">
+                        <span class="member-name">Trung NGUYEN</span>
+                        <span class="member-id">20238006</span>
+                    </div>
+                    <a href="mailto:prenom.nom@umontreal.ca">trung.nguyen@umontreal.ca</a>
+                    <span class="">Temps mis: 12h</span>
+                </li>
+            </ul>
+        </div>
+        <table cellpadding="7px" style="margin: 2em 0 0 10em">
+        <thead>
+            <tr>
+                <th class="first_col">
+                    Tâche
+                </th>
+                <th>
+                    Dawson Zhang
+                </th>
+                <th>
+                    Tien Tran
+                </th>
+                <th>
+                    Trung Nguyen
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="first_col">
+                    Réseau de Pétri
+                </td>
+                <td>
+                    33%
+                </td>
+                <td>
+                    33%
+                </td>
+                <td>
+                    33%
+                </td>
+            </tr>
+            <tr>
+                <td class="first_col">
+                    Statechart
+                </td>
+                <td>
+                    33%
+                </td>
+                <td>
+                    33%
+                </td>
+                <td>
+                    33%
+                </td>
+            </tr>
+            <tr>
+                <td class="first_col">
+                    Design Logiciel
+                </td>
+                <td>
+                    60%
+                </td>
+                <td>
+                    20%
+                </td>
+                <td>
+                    20%
+                </td>
+            </tr>
+                        <tr>
+                <td class="first_col">
+                    Qualité du design
+                </td>
+                <td>
+                    50%
+                </td>
+                <td>
+                    15%
+                </td>
+                <td>
+                    35%
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </header>
+    <main class="report-body">
+        <aside class="report-aside">
+            <nav>
+                <h2 class="section-title">Contenu</h2>
+                <ul class="bare-list nav">
+                    <li class="nav-item">
+                        <h3 class="nav-item-title"><a class="nav-item-title__link" href="#petri">RÉSEAU DE PÉTRI (tâche 1)</a></h3>
+                        <ul class="bare-list nav-item-details">
+                            <a class="nav-item-title__link" href="#photo-petri"><li class="dash">Photo</li></a>
+                            <a class="nav-item-title__link" href="#analyse-petri"><li class="dash">Analyse</li></a>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <h3 class="nav-item-title"><a class="nav-item-title__link" href="#statechart">STATECHART (tâche 2)</a></h3>
+                        <ul class="bare-list nav-item-details">
+                            <a class="nav-item-title__link" href="#photo-statechart"><li class="dash">Photo</li></a>
+                            <a class="nav-item-title__link" href="#code"><li class="dash">Code</li></a>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <h3 class="nav-item-title"><a class="nav-item-title__link" href="#amelioration">DESIGN LOGICIEL (tâche 3)</a></h3>
+                        <ul class="bare-list nav-item-details">
+                            <a class="nav-item-title__link" href="#diagrammeClass"><li class="dash">Révision du diagramme de classe</li></a>
+                            <a class="nav-item-title__link" href="#diagrammeSequence"><li class="dash">Révision des diagrammes de séquence ou de collaboration</li></a>
+                            <a class="nav-item-title__link" href="#paquet"><li class="dash">Révision du diagramme de paquets</li></a>
+                            <a class="nav-item-title__link" href="#ocl"><li class="dash">Révision des contraintes OCL</li></a>
+                            <a class="nav-item-title__link" href="#reutilisabilite"><li class="dash">Identification des modules réutilisables</li></a>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <h3 class="nav-item-title"><a class="nav-item-title__link" href="#justification">QUALITÉ DU DESIGN (tâche 4)</a></h3>
+                        <ul class="bare-list nav-item-details">
+                            <a class="nav-item-title__link" href="#couplage-cohesion"><li class="dash">Discussion du couplage et de la cohésion des modules</li></a>
+                            <a class="nav-item-title__link" href="#fardeau"><li class="dash">Discussion du fardeau des classes </li></a>
+                            <a class="nav-item-title__link" href="#graphIA"><li class="dash">Graphe IA et justification </li></a>
+                            <a class="nav-item-title__link" href="#principe"><li class="dash">Justification de l'application des principes de conception </li></a>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="report-main">
+            <section class="main-section">
+                <h2 id="petri" class="section-title">RÉSEAU DE PÉTRI</h2>
+                <h3 class="subsection-title" id="photo-petri">Photo</h3>
+                    <img src="../ReseauDePetri/petriNet.png" alt="Réseau de Pétri" class="petri-image">
+                <h3 class="subsection-title" id="analyse-petri">Analyse</h3>
+                    <h3>Conservation</h3>
+                    <p>
+                    Loi de conservation : un réseau de Pétri est conservateur pour un vecteur de pondération W si, pour tout marquage M accessible depuis l’état initial M<sub>0</sub>, la somme pondérée des jetons reste constante (diapo 45) :
+                    </p>
+
+                    <p>
+                    ∑ w<sub>i</sub> · M(p<sub>i</sub>) = K (constante)
+                    </p>
+
+                    <p>
+                    Dans notre graphe, la loi de conservation apparaît au cœur du système, c’est-à-dire au niveau de l’accès au tunnel. 
+                    Si l’on isole deux sous-ensembles d’états différents : <b>P<sub>libre</sub> </b>(l'etat freeTunnel, lorsque le tunnel est vide) et <b>P<sub>tunnel</sub></b> (mtlDirection et riveSudDirection, lorsqu’une voiture est en train de traverser), la loi de conservation peut s’écrire sous la forme :
+                    </p>
+
+                    <p>
+                    M(P<sub>libre</sub>) + M(P<sub>tunnel</sub>) = 1
+                    </p>
+
+                    <p>
+                    Les simulations de notre réseau montrent que si le tunnel est occupé <b>(M(P<sub>tunnel</sub>) = 1)</b>, alors <b>P<sub>libre</sub></b> est nécessairement vide. 
+                    En effet, le jeton a été pris par l’un des deux côtés du tunnel, ce qui permet à cette voie d’accueillir une voiture. 
+                    </p>
+
+                    <p>
+                    Une autre manière d’interpréter ce résultat, même si elle diffère légèrement de l’approche présentée dans le cours,
+                    consiste à voir le tunnel comme une « boîte noire » : le nombre de voitures qui entrent doit être égal au nombre de voitures qui en sortent.
+                    Rien ne se perd et rien ne se crée, les voitures ne font que circuler dans un flux, comme dans les réseaux de flots étudiés
+                    en recherche opérationnelle.
+                    </p>
+
+                    <p>
+                    Par exemple, dans notre réseau, si l’on retirait les générateurs et que l’on plaçait initialement 5 voitures de chaque côté
+                    du tunnel, alors au final 5 voitures ressortiraient également de chaque côté.
+                    </p>
+                    <h3>Graphe de couverture et Équité</h3>
+                        
+                        <figure>
+                            <img src="Assets/couverture.png" alt="Graphe de Couverture du tunnel" class="couverture-image" style="width: 400px; height: auto;">
+                            <figcaption>Analyse des états du système par graphe de couverture.</figcaption>
+                        </figure>
+
+                        <p>
+                            Notre réseau utilise les places/états <strong>lightRiveSud</strong>, <b>lightMtl</b> et <b>freeTunnel</b> pour réguler le droit de passage. 
+                            Lorsqu'une voiture occupe le tunnel, les deux lumieres de contrôle ainsi que freeTunnel sont vides, 
+                            interdisant toute nouvelle entrée.
+                        </p>
+
+                        <p>
+                            Même si la place <b>freeTunnel</b> est techniquement en trop parce que les feux bloquent déjà l'entrée, 
+                            on a choisi de la laisser pour que le schéma colle mieux à l'énoncé. Ça permet de bien visualiser 
+                            le tunnel comme une ressource physique qui se vide et se remplit, ce qui rend le réseau plus intuitif. (un extra safety)
+                        </p>
+
+                        <p>
+                            En analysant les cycles, on voit que dès qu'une voiture sort vers Montréal, 
+                            elle dépose un jeton dans <b>lightMtl</b> pour donner la priorité à Montréal. Ces jetons 
+                            de permission tournent en rond : ils obligent le système à donner la priorité à chaque 
+                            entrée avant de revenir au point de départ. Cette alternance forcée garantit qu'il n'y a 
+                            pas de famine, parce qu'aucun côté ne peut garder le tunnel pour lui tout seul sans laisser passer l'autre côté.
+                        </p>
+
+                        <p>
+                            En regardant le graphe de couverture, on voit qu'il n'y a aucun état bloquant ou cul-de-sac. 
+                            Toutes les transitions sont au moins de niveau L1, ce qui veut dire qu'elles restent accessibles 
+                            depuis l'état initial.
+                        </p>
+
+                        <p>
+                            Comme le graphe montre qu'il y a toujours des transitions possibles et que les feux, combinés au <b>freeTunnel</b>,
+                            forcent une alternance stricte, on en conclut que le système est vivant et équitable. Tant que les sources 
+                            génèrent des voitures, personne ne reste bloqué indéfiniment puisque le tunnel est obligé de basculer d'un 
+                            côté à l'autre. Dans notre modèle, on a bien vu qu'un problème pourrait apparaître si un côté était plein 
+                            alors que l'autre était vide, car la priorité pourrait rester coincée là où il n'y a personne. 
+                            C'est pour ça qu'on a utilisé des générateurs qui assurent un flot constant de chaque bord, garantissant que le cycle ne s'arrête jamais.
+                        </p>
+                <h2 id="statechart" class="section-title">STATECHART</h2>
+                <h3 class="subsection-title" id="photo-statechart">Photo/Video</h3>
+                        <img class="activity-diagram" src="Assets/statechart.png" alt="statechart micro-onde">
+                        <video controls>
+                            <source src="Assets/recording.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                <h3 class="subsection-title" id="code">Code</h3>
+                        <p>Consultez le dossier « Microwave » où se trouve le code de ce micro-ondes.</p>
+
+                <h2 id="amelioration" class="section-title">Design logiciel</h2>
+                <h3 class="subsection-title" id="diagrammeClass">Révision du diagramme de classe</h3>
+                    <div class="use-case">
+                        <img class="use-case-diagram" src="Assets/Class Diagram1.svg" alt="Diagramme de classes">
+                    </div>
+                    <p>
+                        <a href="Assets/Class Diagram1.svg" target="_blank" class="inline-link">
+                            Ouvrir le diagramme de classe dans un nouvel onglet pour une meilleure lisibilité :
+                        </a>
+                    </p>
+
+                    <p>
+                        Nous avons intégré les commentaires reçus lors de la correction du premier devoir, notamment 
+                        en adoptant une architecture s'appuyant davantage sur des classes abstraites.
+
+                        Nous avons transformé les classes <b>User</b>, <b>Trip</b>, <b>Location</b>, <b>Transport</b> et <b>Section</b> en classes abstraites et 
+                        ajouté une classe abstraite <b>Seats</b>. Puisque ces dernières ne sont jamais instanciées directement,
+                        mais servent de base à des classes dérivées, ce choix est plus cohérent. Par exemple, un « transport » en soi n'est jamais utilisé tel quel ;
+                        il faut toujours préciser s'il s'agit d'un avion, d'un bateau ou d'un train. Même chose pour un utilisateur : 
+                        il est soit un client, soit un administrateur. Une classe parente concrète n'avait donc pas de sens, car dans 
+                        aucun cas notre système n'interagissait directement avec une instance de la classe User, tandis qu'une classe abstraite 
+                        reflète mieux son rôle de « blueprint » pour les types d'utilisateurs spécifiques.
+                        <br>
+                        <br>
+                        En ce qui concerne les principes de conception SOLID :
+
+                        <ul>
+                            <li>
+                                Single Responsibility Principle: Chaque classe possède une mission clairement définie. 
+                                Les classes de la « Vue » se limitent à l'affichage des informations nécessaires au menu 
+                                client, au menu administrateur et à la page de paiement. Chaque contrôleur gère une interaction 
+                                bien précise liée à un modèle ou à un concept restreint, garantissant ainsi une responsabilité unique. 
+                                Enfin, chaque modèle représente une entité propre au domaine du voyage, avec des attributs et des méthodes 
+                                spécifiques à son rôle.
+                            </li>
+                            <br>
+                            <li>
+                                Open/Closed Principle: Les classes sont ouvertes à l'extension, mais fermées à la modification.
+                                Dans notre conception, l'ajout de nouvelles fonctionnalités se fait par la création de nouveaux 
+                                contrôleurs, modèles et vues sans modifier le code existant. L'usage de classes abstraites permet 
+                                également d'ajouter de nouveaux types de transports ou de sections sans impacter la structure actuelle.
+                            </li>
+                            <br>
+                            <li>
+                                Liskov Substitution Principle: Les classes dérivées peuvent être utilisées de manière interchangeable avec leurs classes de base. 
+                                Par exemple, un client est un utilisateur (User) et peut être utilisé dans n'importe quel contexte 
+                                où un objet de ce type est attendu. En revanche, l’inverse n’est pas vrai : tout utilisateur n’est pas forcément un client.
+
+                                Ainsi, si des méthodes de personnalisation du profil sont définies pour un type générique User, il est cohérent que les différentes types d’utilisateurs, 
+                                comme les clients et les administrateurs, puissent toutes modifier leur profil, sans introduire de comportement inattendu.
+                            </li>
+                            <br>
+                            <li>
+                                Interface Segregation Principle: Ce principe stipule qu’une classe ne doit pas être forcée d’implémenter des interfaces dont elle n’a 
+                                pas besoin. Autrement dit, il vaut mieux avoir des interfaces petites et spécifiques plutôt qu’une interface générale trop large.
+
+                                Dans notre conception, nous utilisons qu'une interface seule appelée Permission, qui contient une méthode dédiée à 
+                                la vérification de l’authentification. Cette interface est implémentée uniquement par les contrôleurs qui nécessitent 
+                                un utilisateur authentifié avant d'exécuter certaines actions (par exemple : accès à la page de données personnelles sensibles d'un compte).
+                            </li>
+                            <br>
+                            <li>
+                                Dependency Inversion Principle: Les modules de haut niveau ne dépendent pas directement des modules de bas niveau, mais plutôt d'abstractions.
+                                C'est le changement majeur de notre design : alors que notre premier devoir reposait sur des classes 
+                                concrètes héritant d'autres classes concrètes, le passage aux classes abstraites permet aux entités comme les users, les trips, les sièges, les transports 
+                                ou les sections de dépendre de classes plus générales ainsi améliorant la flexibilité et la maintenabilité du système. Par exemple, les 
+                                différentes classes de sièges (PlaneSeat, BoatSeat, TrainSeat) dépendent désormais d’une classe abstraite Seat. Cette approche permet 
+                                d’ajouter facilement de nouveaux types de sièges, comme un PrivateJetSeat avec des caractéristiques supplémentaires (par exemple un indice de confort), 
+                                sans modifier les classes existantes. Étroitement relié à l’Open/Closed Principle (OCP).
+
+                            </li>
+                            <br>
+                            <li>
+                                Composite Reuse Principle: Grâce au Dependency Inversion Principle, notre conception privilégie désormais la composition et l’extension de classes abstraites plutôt que l’héritage simple.
+
+                                Notre design utilise déjà principalement un héritage limité à un seul niveau, évitant ainsi toute hiérarchie profonde (deep inheritance). De plus, notre modèle repose largement sur la composition. Par exemple, la classe Transport contient une composition de Section, et les sections contiennent elles-mêmes une composition de sièges.
+
+                                Une amélioration majeure que nous aurions pu apporter (identifiée lors d’une révision de cette partie, mais qui impliquerait de modifier le graphe IA donc nous nous contentons seulement de la mentionner) serait de revoir le calcul du prix. Une approche respectant davantage le Composite Reuse Principle consisterait à déplacer cette responsabilité dans une classe distincte, associée à la classe abstraite Section.
+
+                                Ainsi, au lieu d’utiliser l’héritage pour gérer les différents types de calcul, nous pourrions déléguer cette logique à une classe de calcul de prix contenant des méthodes adaptées à chaque type de section. Cela permettrait d’éviter la duplication du code de calcul dans les différentes classes de sections et d’améliorer la maintenabilité du système.
+                            </li>
+
+                        </ul>
+                    </p>
+                    <p>
+                        Dans notre nouveau diagramme de classes, l'introduction de l'abstraction a rendu 
+                        certains attributs et méthodes redondants au sein des classes concrètes. Nous avons 
+                        néanmoins choisi de les conserver pour illustrer l'héritage/extension naturel de ces 
+                        propriétés (ce qui évite de présenter plusieurs classes vides aussi, car les types de 
+                        voyages présentés dans l'énoncé sont très similaires). Malgré cette apparente redondance, 
+                        le maintien d'une structure, où des classes concrètes héritent de classes abstraites, est essentiel 
+                        pour garantir un système flexible. Cette structure est beaucoup plus future-proof et permettrait 
+                        une extension plus générale du design des consignes spécifiques à un type de voyage, comme un 
+                        numéro de porte d'embarquement pour un vol par exemple, directement dans la classe concernée, 
+                        sans nécessiter de modifications complexes ou risquées dans le reste du système.
+                    </p>
+                    
+                <h3 class="subsection-title" id="diagrammeSequence">Révision des diagrammes de séquence ou de collaboration</h3>
+                <P>
+                    Comme nous avons uniquement apporté des modifications mineures 
+                    notamment transformer certaines classes parentes en classes abstraites, 
+                    distinguer les sièges en types individuels et ajuster légèrement des éléments 
+                    comme le lien entre le paiement et le client, ces changements n’ont pas eu d’impact 
+                    sur les diagrammes de séquence. En effet, ces derniers représentent le comportement 
+                    global du système du point de vue des acteurs, et non ses détails internes.
+
+                    De la même manière, les trois diagrammes de collaboration sont restés inchangés, 
+                    puisque les classes impliquées ainsi que leurs interactions demeurent identiques.
+
+                    Enfin, étant donné que nous avions obtenu la note maximale, nous n’avons pas jugé nécessaire 
+                    d’apporter des modifications supplémentaires à la structure.
+                </P>
+                    
+                <h3 class="subsection-title" id="paquet">Révision du diagramme de paquets</h3>
+                <P>
+                    Nous n'avons pas modifié le diagramme de paquets. En effet, aucun changement structurel majeur ne justifiait 
+                    un redesign de ce diagramme. La seule modification structurelle concerne l’ajout de classes pour distinguer 
+                    les sièges en trois types distincts, mais celles-ci demeurent dans le même paquet de transport.
+
+                    Dans le même ordre d'idée que pour les diagrammes de séquence et de collaboration, 
+                    comme nous avions obtenu la note maximale pour cette section, nous considérons que 
+                    le diagramme de paquets est déjà clair et bien structuré, et ne nécessite donc pas de révision.
+                </P>
+                   
+
+                <h3 class="subsection-title" id="ocl">Révision des contraintes OCL</h3>
+
+                <p>
+                    Nous avons changé que quelques noms de classes, spécifiquement F4 et C5, où les sièges sont 
+                    désormais respectivement PlaneSeat et BoatSeat, mais les contraintes OCL sont restées les mêmes, 
+                    puisque les règles métier n'ont pas été modifiées.
+                    <a href="Assets/OCLRedesign.pdf">Open the PDF</a>
+                </p>
+                <h3 class="subsection-title" id="reutilisabilite">Identification des modules réutilisables</h3>
+
+                <p>Pour identifier les modules réutilisables, nous nous sommes assurés de trouver des classes faiblement 
+                    couplées (peu dépendantes du reste du système et donc réutilisables dans d’autres systèmes) et ayant une 
+                    haute cohésion (ayant une mission claire et précise qui peut être réutilisable dans d’autres systèmes). 
+
+                <p>Selon nous, aucune classe n’est vraiment réutilisable au niveau des vues : elles sont toutes propres à notre 
+                    système, car l’affichage est un choix personnel de la manière dont on veut présenter nos informations. </p> 
+                    
+                <p>
+                    Pour les contrôleurs, nous avons identifié 3 classes qui pourraient potentiellement être réutilisables :  
+                    <b>systemController</b>, <b>loginController</b>, et <b>paymentController</b>, qui agissent respectivement 
+                    comme controlleur de creation de compte, de connexion et de paiement. En effet, ces trois fonctions sont très 
+                    courantes dans les systèmes informatiques, et les classes qui les implémentent sont souvent similaires d’un système à l’autre. 
+                    Par exemple, le <b>loginController</b> pourrait être réutilisé dans n’importe quel système nécessitant une authentification, 
+                    tandis que le <b>paymentController</b> pourrait être utiliser dans tous type de service ou la vente est presente.
+                </p>
+
+                <p>Ensuite, pour les modèles, la classe <b>User</b> est une classe plutôt générale, ayant des attributs que l’on retrouvera dans d’autres systèmes. La même chose peut être dite des classes <b>Trip</b>, qui contient pratiquement toujours un departureTime, arrivalTime, un price, une duration, etc. Ainsi que <b>Payment</b>, qui contient les informations de la carte, les informations de l’utilisateur et une facture.</p>
+
+                <p>Finalement, la seule interface que nous avons implémentée étant les <b>Permissions</b>, elle pourrait également être réutilisée pour tout autre système disposant d’un mécanisme d’authentification et de gestion de comptes. La classe abstraite <b>Menu</b> contient aussi des méthodes d’affichage primitives que toute application pourrait utiliser pour créer une interface utilisateur, ce qui en fait une classe réutilisable.</p>
+
+                <h2 id="justification" class="section-title">Qualité du design</h2>
+                <h3 class="subsection-title" id="couplage-cohesion">Discussion du couplage et de la cohésion des modules</h3>
+                <p>
+                    Puisque le design a été conçu selon une architecture MVC, le couplage demeure plutôt bas pour un système de cette taille. 
+                    Ce patron permet en effet de séparer l'application en reliant l'interface uniquement au contrôleur, lequel est ensuite connecté à certains modèles.
+                    <br>
+                    <br>
+                    Cette approche apporte une amélioration considérable sur plusieurs plans : <br>
+
+                    D'abord, au niveau du <b>couplage de contenu</b>, puisque les classes d'interface n'accèdent plus directement aux composants 
+                    internes des modèles. Ensuite, concernant le <b>couplage commun</b>, on évite l'entremêlement des variables entre la vue et le modèle.
+                    Enfin, et c'est le point majeur, on note une nette progression en matière de <b>couplage par contrôle</b>. Il existe désormais 
+                    une section entière dédiée à la gestion des communications entre les classes d'interface et les modèles ; en d'autres termes, 
+                    P ne contrôle plus l'exécution de Q de manière directe. Ainsi, cette architecture permet d'éliminer les trois types de couplage problématiques étudiés en classe.
+                    <br>
+                    <br>
+                    Sans ce patron de conception, chaque modèle utilisé dans une interface devrait y être directement rattaché, créant ainsi un 
+                    code spaghetti où tout s'entremêle pour combler les besoins de chaque vue (diapo 43 du powerpoint 3.3 MVC). Dans notre design, on peut modifier la vue sans jamais toucher 
+                    au modèle, et vice-versa : les modèles modifient la logique sans casser l'interface, car le contrôleur se réserve la responsabilité d'assurer un bon affichage.
+                    <br>
+                    <br>
+                    En soi, le MVC ne réduit pas drastiquement le nombre de connexions, puisqu'il introduit une toute nouvelle section de classes pour gérer 
+                    l'interaction. Toutefois, dans la vision globale du design, cette structure permet de s'appuyer sur trois grands blocs distincts : la vue, 
+                    le contrôleur et le modèle.
+                    <br>
+                    <br>
+                    Le code gagne ainsi en modularité. On se retrouve avec un contrôleur qui sert d'unique intermédiaire, dépendant simplement d'une vue et d'un 
+                    modèle. Cela transforme un couplage complexe et entremêlé en un couplage de meilleure qualité, beaucoup plus facile à maintenir.
+                </p>
+
+                <p>
+                    D’un autre côté, la cohésion est forte. Suivant la même logique que pour le couplage, 
+                    la séparation claire des trois rôles permet une spécialisation des classes, ce qui conduit à une forte cohésion. 
+                    Il s’agit notamment d’une cohésion <b>fonctionnelle</b>, où les méthodes de chaque classe poursuivent un même objectif. 
+                    Par exemple, les classes de vue se concentrent uniquement sur l’affichage propre à un type d’utilisateur, tandis 
+                    que les contrôleurs gèrent les interactions entre les modèles et les vues.
+                    Les modèles, quant à eux, regroupent des méthodes adaptées aux besoins spécifiques de leur domaine.
+                </p>
+                
+                <h3 class="subsection-title" id="fardeau">Discussion du fardeau des classes</h3>
+
+                <p>
+                    Notre conception présente une séparation entre le domaine de classes de fondation et les couches applicatives.
+                    D'un côté, nous retrouvons des éléments comme l'interface <b>Permission</b> ou la classe abstraite <b>Menu</b> qui agissent 
+                    comme de véritables bibliothèques. Étant donné qu'elles ne dépendent d'aucune classe spécifique à notre système, 
+                    elles restent générales, ce qui facilite leur réutilisation dans n'importe quel autre contexte. Par exemple, 
+                    les méthodes utilisées à l'intérieur, respectivement <b>verifyPermission</b> et <b>displayMenu</b>, sont des méthodes qu'on pourrait retrouver 
+                    dans toute application où il y aurait une interface (GUI) ainsi qu'un système de compte et d'authentification. (Domaines de fondation)
+                    <br>
+                    <br>
+                    À l'inverse, le fardeau s'alourdit considérablement dès que l'on remonte vers les classes de vues. 
+                    Comme celles-ci sont propres à notre application de gestion de voyages, elles se situent au plus haut 
+                    niveau de dépendance, connectées directement à un contrôleur qui sera éventuellement connecté à plusieurs 
+                    modèles. (Domaine applicatif)
+                    <br>
+                    <br>
+                    Ensuite, les contrôleurs doivent orchestrer plusieurs modèles, ayant donc un fardeau moyennement élevé, 
+                    tandis que les modèles sont souvent moins dépendants, ayant donc un fardeau plus faible. Cependant, 
+                    la hiérarchie allant du <b>Seat</b> au <b>Trip</b> montre que même nos entités de base supportent un certain poids relationnel. 
+                    Le fardeau le moins élevé des modèles est la classe <b>Administrator</b> qui se distingue par sa seule connexion à <b>User</b>, sa classe parent, car notre mise 
+                    en situation ne lui attribue aucune responsabilité spécifique, ce qui la rend très simple et peu dépendante du reste 
+                    du système.(Domaine applicatif et domaine métier pour certains modèles car peuvent être réutilisables dans d'autres systèmes de gestion de voyages)
+                    <br>
+                    <br>
+                    On observe d'ailleurs une progression logique de gauche à droite sur le diagramme : les vues sollicitent les contrôleurs, 
+                    qui eux-mêmes s'appuient sur une structure complexe de modèles pour récupérer les données. Ce cumul de relations crée mécaniquement 
+                    un spectre de fardeau qui s'intensifie à mesure que l'on se rapproche de la vue, tandis que les modèles, plus éloignés de l'interface, restent plus légers.
+                    Cela s'explique par le fait que les vues, étant plus proche de l'actor qui interagit sur l'interface, doivent gérer une multitude de cas d'utilisation et d'interactions, ce qui les rend plus complexes et plus dépendantes du reste du système (domaine applicatif). 
+                    En revanche, les modèles, en tant que représentations abstraites des données et de la logique métier, sont conçus pour être plus génériques et moins liés à des détails spécifiques de l'interface utilisateur, ce qui leur confère un fardeau plus léger.
+                </p>
+
+                <h3 class="subsection-title" id="graphIA">Graphe IA et justification</h3>
+                <h4>Graphe IA</h4>
+                <img src="Assets/iaGraph.png" alt="Graphe IA">
+                <h4>Comptage</h4> 
+                <p>
+                Ce = (couplage efférent) : nombre de dépendances sortantes <br>
+                Ca = (couplage afférent) : nombre de dépendances entrantes <br><br>
+
+                I = Ce / (Ce + Ca) : Instabilité <br><br>
+
+                Nc = nombre de classes totales <br>
+                Na = nombre de classes abstraites <br><br>
+
+                A = Na / Nc : Abstraction
+                </p>
+                
+                <ul>
+                <li>
+                    <b>Paquet Vue</b>
+                    <ul>
+                    <li>
+                        <strong>Instabilité :</strong>
+                        <ul>
+                        <li>Ce = 8 (contrôleurs)</li>
+                        <li>Ca = 1 (portail)</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Abstraction :</strong>
+                        <ul>
+                        <li>Nc = 5 (implémentations de Menu + Menu)</li>
+                        <li>Na = 1 (Menu)</li>
+                        </ul>
+                    </li>
+                    </ul>
+                </li>
+                
+                    <li>
+                        <b>Paquet Controlleur</b>
+                        <ul>
+                            <li>
+                                <strong>Instabilité :</strong>
+                                <ul>
+                                <li>Ce = 6 (User, Reservation, Payment, Trip, Location, Company)</li>
+                                <li>Ca = 4 (ClientMenu, LoginMenu, AdminMenu, PaymentMenu)</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Abstraction :</strong>
+                                <ul>
+                                <li>Nc = 9 (contrôleurs + Permission)</li>
+                                <li>Na = 1 (Permission)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                        
+                    <li>
+                        <b>Paquet Modèle</b>
+                        <ul>
+                            <li>
+                                <strong>Instabilité :</strong>
+                                <ul>
+                                <li>Ce = 0</li>
+                                <li>Ca = 8 (contrôleurs)</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Abstraction :</strong>
+                                <ul>
+                                <li>Nc = 26 (tous les classes modèles)</li>
+                                <li>Na = 6 (User, Trip, Location, Transport, Section, Seat)</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    
+
+                </ul>
+                <h4>Justification</h4>
+                <ul>
+                    <li>
+                        <b>Paquet Vue</b>
+                        <ul>
+                            <li>
+                                Instabilité (I) : Ce = 8, Ca = 1 → I = 8/9 ≈ 0.89 &mdash;
+                                Le paquet Vue est très instable, car il dépend fortement d’autres paquets (controllers) et peu de paquets externes en dépendent.
+                            </li>
+                            <li>
+                                Abstraction (A) : Na = 1, Nc = 5 → A = 1/5 = 0.2 &mdash;
+                                Le paquet contient principalement des classes concrètes (implémentations de menus), ce qui est cohérent avec son rôle opérationnel orienté interface utilisateur.
+                            </li>
+                            <li>
+                                Le paquet Vue, étant instable et principalement concret, se situe en bas à droite du graphe IA, ce qui correspond au comportement attendu pour des modules applicatifs qui dépendent fortement d’autres composants.
+                                Cette position le place également proche de la séquence idéale dans le graphe IA, reflétant un bon équilibre entre abstraction et stabilité pour ce type de module dans l’architecture globale.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Paquet Controlleur</b>
+                        <ul>
+                            <li>
+                                Instabilité (I) : Ce = 6, Ca = 4 → I = 6/10 = 0.6 &mdash;
+                                Les contrôleurs dépendent de nombreux modèles et sont modérément instables, ce qui reflète leur rôle de coordination entre la Vue et le Modèle.
+                            </li>
+                            <li>
+                                Abstraction (A) : Na = 1, Nc = 9 → A = 1/9 ≈ 0.11 &mdash;
+                                Les contrôleurs sont essentiellement concrets, car ils aggissent comme intermédiaires directs entre les vues et les modèles (les vues doivent passer par des classes concrètes pour accéder aux fonctionnalités des modèles).
+                            </li>
+                            <li>
+                                Le paquet Controller se situe également dans la zone basse-droite du graphe, indiquant un module concret mais instable, avec un degré d’instabilité et d’abstraction tout à fait raisonnable.                          
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>Paquet Modèle</b>
+                        <ul>
+                            <li>
+                                Instabilité (I) : Ce = 0, Ca = 8 → I = 0/8 = 0 &mdash;
+                                Les modèles sont très stables : ils sont utilisés par de nombreux contrôleurs, mais ne dépendent d’aucun autre paquet.
+                            </li>
+                            <li>
+                                Abstraction (A) : Na = 6, Nc = 26 → A = 6/26 ≈ 0.23 &mdash;
+                                Le paquet contient un certain nombre de classes abstraites, représentant les entités et interfaces métier.
+                            </li>
+                            <li>
+                                Conclusion : Le paquet Model se situe en bas à gauche du graphe IA, ce qui signifie qu’il est stable mais relativement concret. Cette position correspond à la "Zone of Pain", car elle indique une forte stabilité associée à un faible niveau d’abstraction, c’est-à-dire une présence trop importante de classes concrètes.
+                                Cependant, beaucoup des classes que nous considérons concrètes sont en réalité des dérivées de classes abstraites, ce qui ne réduit pas nécessairement la flexibilité du système.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+    
+
+                <h3 class="subsection-title" id="principe">Justification de l'application des principes de conception</h3>
+                <p>
+                    Comme discuté précédemment dans la section de révision du diagramme de classes, notre design respecte les principes SOLID + C.
+                    <br>
+                    <br>
+                    Chaque classe a une responsabilité clairement définie, les modules sont ouverts à l’extension mais fermés à la modification, les classes dérivées peuvent être utilisées de manière interchangeable avec leurs classes de base, les interfaces sont spécifiques à leurs clients (nous n’avons qu’une seule interface), les modules de haut niveau ne dépendent pas directement des modules de bas niveau, et enfin, la délégation/composition est privilégiée par rapport à l’héritage simple grâce à l’introduction de classes abstraites.
+                    <br>
+                    <br>
+                    Pour plus de détails, référez-vous à la section de révision du diagramme de classes, où nous avons expliqué en détail comment notre design respecte chacun de ces principes.
+
+                </p>
+            </section>
+
+        </div>
+    </main>
+    <footer class="report-footer">
+        <p>
+            Devoir 2 <br>
+            IFT3911 <br>
+            Hiver 2026
+        </p>
+
+        <p><a href="#up" id="link">Go up</a></p>
+    </footer>
+</body>
+
+</html>
