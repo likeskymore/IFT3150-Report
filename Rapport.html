@@ -914,26 +914,34 @@
                     <h2 id="september" class="section-title">September</h2>
                     <div>
                         <h3 class="subsection-title" id="first-week-september">First Week</h3>
-                        <p>During the first week, I explored the codebase and familiarized myself with the project's existing implementations.</p>
+                        <p>During the first week, I explored the codebase and familiarized myself with the project's
+                            existing implementations.</p>
                     </div>
                     <div>
                         <h3 class="subsection-title" id="second-week-september">Second Week</h3>
-                        <p>During this week, I developed and integrated simple evaluator, Python and JavaScript evaluator from Chainforge into PromptStudio.</p>
+                        <p>During this week, I developed and integrated simple evaluator, Python and JavaScript
+                            evaluator from Chainforge into PromptStudio.</p>
                         <ul>
-                            <li>Modified Chainforge's <code>jsonToYml</code> function to handle new evaluator cases.</li>
+                            <li>Modified Chainforge's <code>jsonToYml</code> function to handle new evaluator cases.
+                            </li>
                         </ul>
                         <ul>
                             <li>Python evaluator implementation
                                 <ul>
-                                    <li>Implemented <code>execute_python</code>: runs an evaluation script via a subprocess with a JSON wrapper to collect results.</li>
+                                    <li>Implemented <code>execute_python</code>: runs an evaluation script via a
+                                        subprocess with a JSON wrapper to collect results.</li>
                                 </ul>
                             </li>
                         </ul>
                         <ul>
-                            <li>JavaScript evaluator implementation
+                            <li>Simple evaluator implementation
                                 <ul>
-                                    <li>Generated JavaScript code for the simple evaluator using Chainforge's <code>createJSEvalCodeFor</code>.</li>
-                                    <li>Implemented the JavaScript evaluator by reusing the existing <code>execute_javascript</code> function.</li>
+                                    <li>Generated JavaScript code for the simple evaluator using Chainforge's
+                                        <code>createJSEvalCodeFor</code>.
+                                    </li>
+                                    <li>And then run the Simple evaluator by reusing the existing
+                                        <code>execute_javascript</code> function.
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -943,32 +951,38 @@
                     </div>
                     <div>
                         <h3 class="subsection-title" id="third-week-september">Third Week</h3>
-                        <p>This week I added Chainforge processors to PromptStudio and tested the application on a cluster.</p>
+                        <p>This week I added Chainforge processors to PromptStudio and tested the application on a
+                            cluster.</p>
 
                         <ul>
                             <li>Adapted Chainforge's <code>jsonToYml</code> to support new processor types.</li>
                         </ul>
                         <ul>
                             <li>Database adjustments for processors
-                            <ul>
-                                <li>Modified the SQL script: added an optional <code>format</code> column for <em>split</em> processors and an optional <code>code</code> column for processors containing code.</li>
-                                <li>Created a dedicated enum for processor types instead of reusing evaluator types.</li>
-                            </ul>
+                                <ul>
+                                    <li>Modified the SQL script: added an optional <code>format</code> column for
+                                        <em>split</em> processors and an optional <code>code</code> column for
+                                        processors containing code.
+                                    </li>
+                                    <li>Created a dedicated enum for processor types instead of reusing evaluator types.
+                                    </li>
+                                </ul>
                         </ul>
 
                         <ul>
-                            <li>Implemented the <em>Split</em> processor
-                            <ul>
-                                <li>Developed <code>execute_split</code> for the <em>split</em> processor using Chainforge's <code>splitText</code> function.</li>
-                            </ul>
+                            <li>Implemented the Split processor
+                                <ul>
+                                    <li>Developed <code>execute_split</code> for the <em>split</em> processor using
+                                        Chainforge's <code>splitText</code> function.</li>
+                                </ul>
                             </li>
                         </ul>
 
                         <ul>
-                            <li>Implemented the <em>Python</em> processor
-                            <ul>
-                                <li>Implemented the Python processor by reusing <code>execute_python</code>.</li>
-                            </ul>
+                            <li>Implemented the Python processor
+                                <ul>
+                                    <li>Implemented the Python processor by reusing <code>execute_python</code>.</li>
+                                </ul>
                             </li>
                         </ul>
 
@@ -978,9 +992,11 @@
 
                         <ul>
                             <li>Testing the application on a cluster
-                            <ul>
-                                <li>Cluster tests (madagh server of DIRO): opened a tunnel (hole punch) to expose MySQL from my PC to madagh, then validated functionality. The application behaved as expected on the cluster.</li>
-                            </ul>
+                                <ul>
+                                    <li>Cluster tests (madagh server of DIRO): opened a tunnel (hole punch) to expose
+                                        MySQL from my PC to madagh, then validated functionality. The application
+                                        behaved as expected on the cluster.</li>
+                                </ul>
                             </li>
                         </ul>
                     </div>
@@ -995,13 +1011,20 @@
                                 </li>
                                 <li>Causes</li>
                                 <ul>
-                                    <li>Our token calculator function have an if statement to check for <code><b>final_dataset_id</b></code>, if it's null we skip the calculation</li>
-                                    <li>But new experiments always have their <code><b>final_dataset_id = null</b></code> by default at the <code><b>handle_save_template()</b></code> function</li>
-                                    <li>Existing experiments have their result already processed so the calculator function just skip the calculation and returns 0</li>
+                                    <li>Our token calculator function have an if statement to check for
+                                        <code><b>final_dataset_id</b></code>, if it's null we skip the calculation.
+                                    </li>
+                                    <li>But new experiments always have their
+                                        <code><b>final_dataset_id = null</b></code> by default at the
+                                        <code><b>handle_save_template()</b></code> function.
+                                    </li>
+                                    <li>Existing experiments have their result already processed so the calculator
+                                        function just skip the calculation and returns 0.</li>
                                 </ul>
                                 <li>Solution</li>
                                 <ul>
-                                    <li>At the <code><b>final_dataset_id</b></code> check, we just go ahead and calculate the total input token</li>
+                                    <li>At the <code><b>final_dataset_id</b></code> check, we just go ahead and
+                                        calculate the total input token.</li>
                                 </ul>
                             </ul>
                         </ul>
@@ -1012,11 +1035,167 @@
                     <h2 id="october" class="section-title">October</h2>
                     <div>
                         <h3 class="subsection-title" id="first-week-october">First Week</h3>
-                        <p></p>
+                        <p>This week I worked on implementing the LLM Evaluator and Multi-Evaluator features.</p>
+
+                        <ul>
+                            <li>LLM Evaluator Implementation</li>
+                            <ul>
+                                <li>Extended the jsonToYml flow to support LLM evaluators by introducing a code block
+                                    for evaluators of type <code>llm</code>. I initially integrated this type into the
+                                    existing evaluator architecture (JavaScript, Python, Simple) by storing LLM
+                                    configuration inside the <code>code</code> attribute of the evaluator object.</li>
+
+                                <li>Implemented execution logic for the LLM evaluator in <code>worker.ts</code>. The
+                                    workflow consists of extracting values from <code>promptVarsDict</code> and using
+                                    them to replace the <code>{response}</code> placeholder in the prompt template. And
+                                    then call the <code>queryLLM</code> function to get the evaluation result.</li>
+                            </ul>
+                        </ul>
+
+                        <ul>
+                            <li>Multi-Evaluator Implementation</li>
+                            <ul>
+                                <li>Extended the jsonToYml flow to support multi-evaluators by introducing a code block
+                                    for evaluators of type <code>multieval</code>. My initial approach was to bypass the
+                                    multieval wrapper and directly execute its child evaluators independently, rather
+                                    than treating them as a grouped structure. In this approach, instead of a flow like
+                                    <em>prompt → multieval</em>, the execution becomes <em>prompt → [child
+                                        evaluators]</em>.
+                                </li>
+
+                                <li>Each child evaluator was identified using a naming convention in the format
+                                    <code>{multieval-name}-{childCounter}</code>, where the counter starts at 0 and
+                                    increments for each child.
+                                </li>
+
+                                <li>Implemented execution logic for multi-evaluators in <code>worker.ts</code>. The
+                                    system retrieves child evaluators by matching name prefixes and executes them
+                                    sequentially.</li>
+                            </ul>
+                        </ul>
+
+                        <p>After discussion with professor Syriani, it was determined that the above approaches for both
+                            features are inefficient and architecturally incorrect. And better solutions will be
+                            integrate in the following week.</p>
                     </div>
                     <div>
                         <h3 class="subsection-title" id="second-week-october">Second Week</h3>
-                        <p></p>
+
+                        <p>
+                            This week I implemented the modifications proposed by Professor Syriani regarding the LLM
+                            Evaluator and Multi-Evaluator architectures.
+                        </p>
+
+                        <ul>
+                            <li>
+                                Refactoring of jsonToYml Pipeline
+                                <ul>
+                                    <li>
+                                        A significant refactoring was performed on the jsonToYml pipeline. Previously,
+                                        both YAML node construction and JSON parsing logic were coupled within a single
+                                        function. This was refactored by introducing a dedicated
+                                        <code>buildYmlNode</code> function responsible for YAML node construction, file
+                                        extraction, and tracking unused nodes. The resulting structure returns the
+                                        necessary information to the main jsonToYml function.
+                                    </li>
+
+                                    <li>
+                                        This refactoring was introduced to support recursive processing required for
+                                        Multi-Evaluator nodes.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <ul>
+                            <li>
+                                Adjustments to LLM Evaluator
+                                <ul>
+                                    <li>
+                                        A dedicated <code>Llm_evaluator</code> table was introduced to store
+                                        LLM-specific evaluator configurations. This separation ensures a clear
+                                        distinction between LLM evaluators and other evaluator types. In this design,
+                                        Multi-Evaluators are persisted in both the <code>Evaluator</code> and
+                                        <code>Multi_evaluator</code> tables, while LLM evaluators are linked to the
+                                        <code>Llm_Param</code> table, which stores the configuration of the underlying
+                                        LLM grader.
+                                    </li>
+
+                                    <li>
+                                        New functions (<code>handle_save_llm_evaluator</code> and
+                                        <code>save_evaluator</code>) were implemented to manage the persistence workflow
+                                        for LLM evaluators.
+                                    </li>
+
+                                    <li>
+                                        In <code>worker.ts</code>, LLM evaluators are now resolved using
+                                        <code>get_llm_evaluator_by_id</code>, which retrieves the full configuration
+                                        required for execution via <code>queryLLM</code>. The logic for constructing
+                                        <code>promptVarsDict</code> was also adjusted to align with the updated
+                                        evaluator structure.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <ul>
+                            <li>
+                                Adjustments to Multi-Evaluator
+                                <ul>
+                                    <li>
+                                        The Multi-Evaluator generation logic in jsonToYml was updated to use recursive
+                                        calls to <code>buildYmlNode</code>, replacing previous conditional branching
+                                        logic.
+                                    </li>
+
+                                    <li>
+                                        A <code>multievalChildToNodeFormat</code> adapter was introduced to normalize
+                                        child evaluators, which may differ structurally from standalone evaluators of
+                                        the same type.
+                                    </li>
+
+                                    <li>
+                                        A dedicated <code>Multi_evaluator</code> table was introduced to store
+                                        Multi Evaluators. Similar to the LLM evaluator design,
+                                        Multi Evaluators are stored in both the <code>Evaluator</code> and
+                                        <code>Multi_evaluator</code> tables to support both generic and specialized
+                                        representations.
+                                    </li>
+
+                                    <li>
+                                        A <code>Multi_evaluator_mapping</code> table was added to store relationships
+                                        between multi-evaluators and their child evaluators using (multi_evaluator_id,
+                                        child_evaluator_id) pairs.
+                                    </li>
+
+                                    <li>
+                                        The execution logic in <code>worker.ts</code> was updated to support recursive
+                                        evaluation, removing earlier implementations based on explicit conditional
+                                        branching.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <ul>
+                            <li>
+                                Update to Configuration Saving Logic
+                                <ul>
+                                    <li>
+                                        The <code>save_config</code> function in <code>configHandler.ts</code> was
+                                        updated to include explicit handling for both LLM and Multi-Evaluator types,
+                                        delegating their persistence to <code>handle_save_llm_evaluator</code> and
+                                        <code>handle_save_multi_evaluator</code> respectively.
+                                    </li>
+
+                                    <li>
+                                        The <code>handle_save_evaluator</code> function was modified to return the
+                                        generated <code>node_id</code>, enabling its reuse when constructing
+                                        Multi-Evaluator mappings in the <code>Multi_evaluator_mapping</code> table.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                     <div>
                         <h3 class="subsection-title" id="third-week-october">Third Week</h3>
