@@ -919,8 +919,8 @@
                     </div>
                     <div>
                         <h3 class="subsection-title" id="second-week-september">Second Week</h3>
-                        <p>During this week, I developed and integrated simple evaluator, Python and JavaScript
-                            evaluator from Chainforge into PromptStudio.</p>
+                        <p>During this week, I developed and integrated Simple evaluator and Python evaluator from
+                            Chainforge into PromptStudio.</p>
                         <ul>
                             <li>Modified Chainforge's <code>jsonToYml</code> function to handle new evaluator cases.
                             </li>
@@ -1199,7 +1199,73 @@
                     </div>
                     <div>
                         <h3 class="subsection-title" id="third-week-october">Third Week</h3>
-                        <p></p>
+                        <p>This week I worked on the Dataset/Datanode → Split/Join Processor flow and the implementation
+                            of Join
+                            Processor</p>
+                        <ul>
+                            <li>
+                                Resolved Input Support for Split/Join Processors
+                                <ul>
+                                    <li>
+                                        Updated the dataset → split/join processor flow in
+                                        <code>EvaluatorRunner.ts</code> to pass resolved inputs instead of raw
+                                        marker-based
+                                        inputs. For example, inputs such as &nbsp;&nbsp; <code>this is a {text}</code>
+                                        &nbsp;&nbsp; are now
+                                        resolved to
+                                        their final values (e.g. &nbsp;&nbsp; <code>this is a test</code> &nbsp;&nbsp;)
+                                        before being sent to the
+                                        processor.
+                                    </li>
+
+                                    <li>
+                                        Introduced a new <code>resolved_input</code> table to persist resolved input
+                                        values and
+                                        added a <code>resolved_input_id</code> foreign key to
+                                        <code>processor_result</code> so processor outputs can be traced back to their
+                                        resolved
+                                        inputs.
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                Join Processor Input Resolution
+                                <ul>
+                                    <li>
+                                        Adapted the Join processor to reuse the resolved input pipeline introduced
+                                        for the
+                                        Split processor. Unlike the Split processor, which processes one resolved input
+                                        at a
+                                        time, the Join processor now receives the complete collection of resolved inputs
+                                        in a
+                                        single execution.
+                                    </li>
+                                    <li>
+                                        Developed a function to manage the whole grouping process of the resolved inputs
+                                        being passed to the Join Processor, making sure the results that are saved are
+                                        being grouped correctly according to the <code>selected_group_vars</code> of the
+                                        Join Processor
+                                    </li>
+
+                                    <li>
+                                        Join processor results are currently associated with the
+                                        <code>input_id</code> of one of the contributing dataset inputs. A dedicated
+                                        schema to
+                                        persist the complete mapping between all contributing inputs, marker values, and
+                                        join
+                                        results was considered but deferred due to its complexity.
+                                    </li>
+
+                                    <li>
+                                        The current implementation supports only the
+                                        <code>Dataset → Join Processor</code> execution flow. Other upstream node types
+                                        feeding
+                                        into a Join processor are not yet supported.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                     <div>
                         <h3 class="subsection-title" id="fourth-week-october">Fourth Week</h3>
