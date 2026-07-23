@@ -1269,7 +1269,46 @@
                     </div>
                     <div>
                         <h3 class="subsection-title" id="fourth-week-october">Fourth Week</h3>
-                        <p></p>
+                        <p>
+                            This week was dedicated to testing PromptStudio's implementation of features originally
+                            supported by ChainForge, verifying the backend before moving on to the frontend
+                        </p>
+
+                        <ul>
+                            <li>
+                                Testing Strategy
+                                <ul>
+                                    <li>
+                                        ChainForge provides a collection of example flows covering a wide range of
+                                        execution structures and
+                                        use cases. These example flows were used as benchmarks to validate
+                                        PromptStudio's implementation and
+                                        identify any missing or incorrect behaviors.
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                Bug Identified: Simple Evaluator Variable/Metavar Handling
+                                <ul>
+                                    <li>
+                                        Testing revealed a case where the Simple Evaluator uses a variable or metavar as
+                                        its comparison value.
+                                        This scenario was not supported because the existing implementation assumed that
+                                        the comparison value
+                                        was always provided directly by the user.
+                                    </li>
+
+                                    <li>
+                                        It was also observed that PromptStudio did not support metavars, and metavars
+                                        were not used anywhere in the
+                                        execution pipeline. As a result, Simple Evaluator configurations that depend on
+                                        metavars could not be executed
+                                        correctly.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
@@ -1277,7 +1316,68 @@
                     <h2 id="november" class="section-title">November</h2>
                     <div>
                         <h3 class="subsection-title" id="first-week-november">First Week</h3>
-                        <p></p>
+                        <p>This week I worked on metavars management for simple evaluator case and initialize the
+                            monitor board frontend</p>
+                        <ul>
+                            <li>
+                                Variable/Meta Variable Support for Simple Evaluator
+                                <ul>
+                                    <li>
+                                        This issue was identified in last week's report and addressed during this week's
+                                        work. Previously, I stated that metavars were not supported in PromptStudio,
+                                        which was not entirely accurate. The <code>markerDict</code> passed to
+                                        processors and evaluators already contains both vars and metavars. The actual
+                                        issue was that they were not distinguished from one another, preventing
+                                        evaluators such as the Simple Evaluator from identifying which values should be
+                                        treated as metavars.
+                                    </li>
+                                    <li>
+                                        Extended the Simple Evaluator execution flow to support variables
+                                        and
+                                        meta variables as selectable comparison values.
+                                    </li>
+
+                                    <li>
+                                        Updated the <code>jsonToYml</code> conversion process to export the additional
+                                        metadata required to identify whether the selected value corresponds to a
+                                        variable or
+                                        a meta variable, the selected variable name, etc.. allowing the generated YAML
+                                        to correctly represent the Simple
+                                        Evaluator configuration.
+                                    </li>
+
+                                    <li>
+                                        Modified <code>worker.ts</code> to construct the variable and meta variable
+                                        dictionaries in the format expected by the Simple Evaluator execution code,
+                                        ensuring
+                                        compatibility with evaluator scripts that reference values through
+                                        <code>r.vars</code> and <code>r.meta</code>.
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                Monitor Dashboard Frontend Initialization
+                                <ul>
+                                    <li>
+                                        Initialized a dedicated <code>frontend</code> directory within the repository to
+                                        host the Monitor Dashboard user interface.
+                                    </li>
+
+                                    <li>
+                                        Set up the initial frontend project using <code>Next.js</code> with
+                                        <code>TypeScript</code> as the application framework and
+                                        <code>Tailwind CSS</code> for styling, establishing the foundation for future
+                                        dashboard development.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>
+                            During this week's meeting, the professors pointed out that the current implementation of
+                            the Simple Evaluator code formulation is incorrect, as it invokes the wrong code formulation
+                            function. This issue is planned to be addressed in the following week.
+                        </p>
                     </div>
                     <div>
                         <h3 class="subsection-title" id="second-week-november">Second Week</h3>
