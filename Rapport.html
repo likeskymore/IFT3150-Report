@@ -1316,7 +1316,7 @@
                     <h2 id="november" class="section-title">November</h2>
                     <div>
                         <h3 class="subsection-title" id="first-week-november">First Week</h3>
-                        <p>This week I worked on metavars management for simple evaluator case and initialize the
+                        <p>This week I worked on metavars management for Simple Evaluator case and initialize the
                             monitor board frontend</p>
                         <ul>
                             <li>
@@ -1369,13 +1369,69 @@
                         </ul>
                         <p>
                             During this week's meeting, the professors pointed out that the current implementation of
-                            the Simple Evaluator code formulation is incorrect, as it invokes the wrong code formulation
-                            function. This issue is planned to be addressed in the following week.
+                            the Simple Evaluator code formulation is incorrect. This issue is planned to be addressed in
+                            the following week.
                         </p>
                     </div>
                     <div>
                         <h3 class="subsection-title" id="second-week-november">Second Week</h3>
-                        <p></p>
+                        <p>This week I fixed the code formulation for the Simple Evaluator when using variables/meta
+                            variables and made progress on the monitor board frontend.</p>
+
+                        <ul>
+                            <li>
+                                Variable/Meta Variable Support for Simple Evaluator Code Formulation
+                                <ul>
+                                    <li>
+                                        The issue was identified in the previous implementation of the
+                                        <code>jsonToYml</code> conversion logic.
+                                        The generated evaluator code did not correctly handle cases where the inputted
+                                        value was a variable or
+                                        meta variable, as there was no verification step to determine which type of
+                                        value was being referenced before buiding the JavaScript code for the evaluator.
+                                    </li>
+
+                                    <li>
+                                        Updated the <code>jsonToYml</code> conversion process to include a check for
+                                        whether the selected value
+                                        corresponds to a variable or meta variable before generating the evaluator code,
+                                        allowing the correct
+                                        value reference to be passed during execution.
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                Monitor Dashboard Frontend Progress
+                                <ul>
+                                    <li>
+                                        Developed the initial homepage for the Monitor Dashboard, providing entry points
+                                        to the main sections:
+                                        Prompt Designer, Experiment Configurator, and Analysis pages.
+                                    </li>
+
+                                    <li>
+                                        Connected the Express backend with the Next.js frontend, enabling communication
+                                        between the user
+                                        interface and the database through backend API endpoints.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <p>
+                            During this week's meeting, it was pointed out that the Prompt Designer page is
+                            redundant and that the
+                            frontend should not perform database write operations. The frontend should only
+                            be responsible for
+                            displaying data retrieved from the backend.
+                        </p>
+                        <p>
+                            Based on this feedback, I will remove the Prompt Designer page and continue
+                            developing the frontend with
+                            a read-only architecture in mind, where database modifications are handled
+                            exclusively by the backend.
+                        </p>
                     </div>
                     <div>
                         <h3 class="subsection-title" id="third-week-november">Third Week</h3>
