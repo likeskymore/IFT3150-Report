@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IFT3911 | Report 2</title>
+    <title>IFT3150 | Report </title>
     <link rel="shortcut icon" href="./../favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <style>
@@ -1435,11 +1435,125 @@
                     </div>
                     <div>
                         <h3 class="subsection-title" id="third-week-november">Third Week</h3>
-                        <p></p>
+                        <p>
+                            This week I implemented the groundwork for Server-Sent Events (SSE) streaming for
+                            experiment live updates and introduced a new <code>ExperimentRunState</code> object
+                            in the backend to track the progress and status of running experiments.
+                        </p>
+
+                        <ul>
+                            <li>
+                                SSE Streaming for Experiment Progress Tracking
+                                <ul>
+                                    <li>
+                                        Researched the use of WebSockets versus Server-Sent Events (SSE) for the
+                                        experiment progress tracking feature. Although WebSockets were initially
+                                        planned in the onboarding documentation, SSE was selected because the
+                                        communication is unidirectional: the backend only needs to stream updates
+                                        to the frontend, while the frontend does not need to send progress updates
+                                        back to the backend.
+                                    </li>
+
+                                    <li>
+                                        Defined new backend API endpoints to support SSE connections and stream
+                                        experiment progress updates to connected clients.
+                                    </li>
+
+                                    <li>
+                                        Implemented the corresponding SSE logic in the frontend API services to
+                                        receive and process live experiment updates.
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                ExperimentRunState for Experiment Progress Tracking
+                                <ul>
+                                    <li>
+                                        Defined the new <code>ExperimentRunState</code> object to maintain the
+                                        state of an experiment run, including information such as total tasks,
+                                        completed requests, failed requests, retries, and total tokens used.
+                                    </li>
+
+                                    <li>
+                                        Implemented an observer-based structure for monitoring state changes.
+                                        Whenever a running experiment is updated, the corresponding SSE endpoint
+                                        is notified so that the latest state can be streamed to the frontend.
+                                    </li>
+
+                                    <li>
+                                        Implemented a <code>runState.ts</code> module to manage the states of
+                                        running experiments and provide functions for creating, updating,
+                                        persisting, and notifying listeners about experiment state changes.
+                                    </li>
+
+                                    <li>
+                                        Updated the <code>experimentRunner.ts</code> logic to report experiment
+                                        progress and update the corresponding <code>ExperimentRunState</code>
+                                        with the necessary information throughout the experiment execution.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                     <div>
                         <h3 class="subsection-title" id="fourth-week-november">Fourth Week</h3>
-                        <p></p>
+                        <p>
+                            This week I implemented the main content of the Experiment Monitoring page and
+                            added throttling to the SSE stream to control the frequency at which experiment
+                            progress snapshots are sent to the frontend.
+                        </p>
+
+                        <ul>
+                            <li>
+                                Monitoring Page Content
+                                <ul>
+                                    <li>
+                                        Defined a reusable <code>MetricCard</code> component to display key
+                                        experiment information, such as token usage and other progress metrics.
+                                    </li>
+
+                                    <li>
+                                        Implemented data visualization charts using the ECharts library to
+                                        display experiment progress and performance information.
+                                    </li>
+
+                                    <li>
+                                        Used <code>useEffect</code> to fetch and monitor live updates for the
+                                        currently selected experiment when it is running.
+                                    </li>
+
+                                    <li>
+                                        Defined a consistent color palette for each experiment status,
+                                        including <code>completed</code>, <code>running</code>,
+                                        <code>queued</code>, <code>failed</code>, and <code>paused</code>.
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                SSE Stream Throttling
+                                <ul>
+                                    <li>
+                                        Added an SSE throttling mechanism to limit how frequently experiment
+                                        snapshots are sent to the frontend.
+                                    </li>
+
+                                    <li>
+                                        Defined an SSE throttle interval that specifies the minimum amount of
+                                        time between snapshot updates, preventing excessive network traffic
+                                        when the experiment state is updated frequently.
+                                    </li>
+
+                                    <li>
+                                        The throttling mechanism keeps the most recent experiment state and
+                                        sends it once the configured interval has elapsed, ensuring that the
+                                        frontend receives the latest progress without processing every
+                                        individual state update.
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
